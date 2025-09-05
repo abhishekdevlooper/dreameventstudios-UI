@@ -1,0 +1,11 @@
+[
+    { "id": 1, "imageUrl": "/images/event1.jpg" },
+    { "id": 2, "imageUrl": "/images/event2.jpg" },
+    { "id": 3, "imageUrl": "/images/event3.jpg" },
+    { "id": 4, "imageUrl": "/images/event4.jpg" },
+    { "id": 5, "imageUrl": "/images/event5.jpg" },
+    { "id": 6, "imageUrl": "/images/event6.jpg" },
+    { "id": 7, "imageUrl": "/images/event7.jpg" },
+    { "id": 8, "imageUrl": "/images/event8.jpg" }
+  ]
+  
