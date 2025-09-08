@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { useRouter } from "next/router";
 
 const sidebarLinks = [
@@ -13,10 +13,20 @@ const sidebarLinks = [
   { href: "/admin/settings", label: "Settings", icon: "⚙️" },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+type AdminLayoutProps = {
+  children: ReactNode;
+  sidebarOpen?: boolean; // allow parent to control sidebar
+};
+
+export default function AdminLayout({ children, sidebarOpen: sidebarOpenProp }: AdminLayoutProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(sidebarOpenProp ?? true);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const router = useRouter();
+
+  // Update internal state if parent prop changes
+  useEffect(() => {
+    if (typeof sidebarOpenProp === "boolean") setSidebarOpen(sidebarOpenProp);
+  }, [sidebarOpenProp]);
 
   return (
     <div className="flex min-h-screen">

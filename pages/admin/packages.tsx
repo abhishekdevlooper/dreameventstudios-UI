@@ -32,9 +32,12 @@ export default function PackagesPage() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
+    const checked = e.target instanceof HTMLInputElement ? e.target.checked : false;
+  
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
+  
 
   const addImageUrl = () => {
     if (form.image_input.trim() === "") return;

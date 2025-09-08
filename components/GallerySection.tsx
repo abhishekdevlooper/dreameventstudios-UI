@@ -1,5 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { motion } from "framer-motion";
+import {
+  MotionSection,
+  MotionDiv,
+  MotionH2,
+} from "@/components/common/Motion"; // ✅ import typed motion components
 
 const galleryImages = [
   "/images/event1.jpg",
@@ -14,19 +20,19 @@ const galleryImages = [
 
 export default function EventGallery() {
   return (
-    <motion.section
+    <MotionSection
       className="max-w-6xl mx-auto my-16 px-4"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-300 text-center mb-12">
+      <MotionH2 className="text-3xl font-bold text-purple-700 dark:text-purple-300 text-center mb-12">
         Event Gallery
-      </h2>
+      </MotionH2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {galleryImages.map((src, i) => (
-          <motion.div
+          <MotionDiv
             key={i}
             whileHover={{ scale: 1.05 }}
             className="rounded-2xl overflow-hidden shadow-lg bg-white dark:bg-gray-800 transition transform hover:shadow-2xl"
@@ -37,11 +43,11 @@ export default function EventGallery() {
               width={600}
               height={400}
               className="w-full h-48 object-cover"
-              loading="lazy" // ✅ only lazy, no priority
+              loading="lazy" // ✅ keeps lazy loading
             />
-          </motion.div>
+          </MotionDiv>
         ))}
       </div>
-    </motion.section>
+    </MotionSection>
   );
 }

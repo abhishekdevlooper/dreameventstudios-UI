@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { MotionDiv } from "./common/Motion"; // adjust path if needed
 
 const testimonials = [
   {
@@ -36,7 +36,7 @@ export default function TestimonialsGridEnhanced() {
 
       <div className="max-w-6xl mx-auto space-y-20 relative">
         {testimonials.map((testimonial, i) => (
-          <motion.div
+          <MotionDiv
             key={i}
             className={`flex flex-col md:flex-row items-center ${
               i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
@@ -47,7 +47,7 @@ export default function TestimonialsGridEnhanced() {
           >
             {/* Floating Particles */}
             {particles.map((_, p) => (
-              <motion.div
+              <MotionDiv
                 key={p}
                 className="absolute w-2 h-2 rounded-full bg-purple-400 opacity-50"
                 style={{
@@ -79,12 +79,12 @@ export default function TestimonialsGridEnhanced() {
 
             {/* Testimonial Text */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 flex-1 relative z-10 overflow-hidden">
-              <motion.div
+              <MotionDiv
                 className="absolute w-32 h-32 bg-purple-200 dark:bg-purple-700 opacity-20 rounded-full -top-10 -right-10"
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               />
-              <motion.div
+              <MotionDiv
                 className="absolute w-24 h-24 bg-pink-200 dark:bg-pink-700 opacity-20 rounded-full -bottom-10 -left-10"
                 animate={{ rotate: [0, -360] }}
                 transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -97,7 +97,7 @@ export default function TestimonialsGridEnhanced() {
                 — {testimonial.name}
               </p>
             </div>
-          </motion.div>
+          </MotionDiv>
         ))}
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
+
 import { Linkedin, Instagram } from "lucide-react";
+import { MotionDiv, MotionSection } from "./common/Motion"; // adjust path if needed
 
 export default function Team() {
   const team = [
@@ -11,7 +12,7 @@ export default function Team() {
   ];
 
   return (
-    <motion.section
+    <MotionSection
       className="max-w-7xl mx-auto my-20 px-6 md:px-12 relative"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -28,7 +29,7 @@ export default function Team() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
         {team.map((member, i) => (
-          <motion.div
+          <MotionDiv
             key={i}
             whileHover={{ scale: 1.05, rotateY: 5 }}
             initial={{ opacity: 0, y: 20 }}
@@ -37,7 +38,7 @@ export default function Team() {
             className="bg-gradient-to-br from-purple-200 via-purple-300 to-purple-400 rounded-3xl shadow-lg p-6 flex flex-col items-center text-center transition-all duration-300 relative overflow-hidden"
           >
             {/* Floating blurred circle */}
-            <motion.div
+            <MotionDiv
               className="absolute w-32 h-32 bg-pink-200 dark:bg-pink-700 opacity-20 rounded-full -top-8 -right-8"
               animate={{ rotate: 360 }}
               transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -52,15 +53,15 @@ export default function Team() {
             <p className="text-sm text-gray-700 dark:text-gray-200 z-10">{member.role}</p>
 
             {/* Social Icons on hover */}
-            <motion.div
+            <MotionDiv
               className="flex gap-3 mt-3 opacity-0 hover:opacity-100 transition-opacity"
             >
               <a href="#" className="text-gray-800 dark:text-white hover:text-purple-700"><Linkedin size={20} /></a>
               <a href="#" className="text-gray-800 dark:text-white hover:text-pink-500"><Instagram size={20} /></a>
-            </motion.div>
-          </motion.div>
+            </MotionDiv>
+          </MotionDiv>
         ))}
       </div>
-    </motion.section>
+    </MotionSection>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getClientUser, isClientLoggedIn, removeClientToken } from "../utils/auth-client";
+import { getClientUser, isClientLoggedIn, removeClientToken } from "../../utils/auth-client";
 
 const Dashboard = () => {
   const router = useRouter();

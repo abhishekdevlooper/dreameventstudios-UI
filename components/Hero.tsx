@@ -1,9 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import Lottie from "lottie-react";
-import celebrationAnimation from "@/public/animations/celebration.json"; // Optional
+import {
+  MotionSection,
+  MotionH1,
+  MotionP,
+  MotionDiv,
+  MotionButton,
+} from "@/components/common/Motion"; // ✅ typed motion imports
+// import Lottie from "lottie-react";
+// import celebrationAnimation from "@/public/animations/celebration.json"; // Optional
 
 export default function Hero() {
   const confetti = Array.from({ length: 15 });
@@ -24,27 +30,29 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-purple-100 via-white to-purple-50 dark:from-gray-900 dark:via-black dark:to-gray-800 text-center py-24 px-6 rounded-xl shadow-md overflow-hidden">
+    <MotionSection
+      className="relative bg-gradient-to-br from-purple-100 via-white to-purple-50 dark:from-gray-900 dark:via-black dark:to-gray-800 text-center py-24 px-6 rounded-xl shadow-md overflow-hidden"
+    >
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Heading with bounce-in */}
-        <motion.h1
+        <MotionH1
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: [-40, 0, -10, 0] }}
           transition={{ duration: 1, ease: "easeOut" }}
           className="text-5xl font-extrabold mb-4 leading-tight text-purple-700 dark:text-purple-300"
         >
           Your Dream Event Starts Here
-        </motion.h1>
+        </MotionH1>
 
         {/* Subheading */}
-        <motion.p
+        <MotionP
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
           className="text-xl text-gray-700 dark:text-gray-300 mb-6"
         >
           Elevate your celebrations with expert planning, stunning décor, and unforgettable experiences.
-        </motion.p>
+        </MotionP>
 
         {/* Optional Lottie animation */}
         {/* <div className="w-48 mx-auto mb-6">
@@ -52,43 +60,43 @@ export default function Hero() {
         </div> */}
 
         {/* Buttons with stagger */}
-        <motion.div
+        <MotionDiv
           variants={buttonContainer}
           initial="hidden"
           animate="visible"
           className="flex flex-col sm:flex-row justify-center gap-6 mt-6 relative z-10"
         >
           {/* Book Now */}
-          <motion.div variants={buttonVariant}>
+          <MotionDiv variants={buttonVariant}>
             <Link href="/booking">
-              <motion.button
+              <MotionButton
                 whileHover={{ scale: 1.1, rotate: [0, 3, -3, 0] }}
                 whileTap={{ scale: 0.95 }}
                 className="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-3 rounded-full shadow-lg text-lg font-semibold"
               >
                 🎉 Book Now
-              </motion.button>
+              </MotionButton>
             </Link>
-          </motion.div>
+          </MotionDiv>
 
           {/* Contact Us */}
-          <motion.div variants={buttonVariant}>
+          <MotionDiv variants={buttonVariant}>
             <Link href="/contact">
-              <motion.button
+              <MotionButton
                 whileHover={{ scale: 1.1, rotate: [0, 3, -3, 0] }}
                 whileTap={{ scale: 0.95 }}
                 className="bg-gradient-to-r from-green-500 to-teal-400 text-white px-8 py-3 rounded-full shadow-lg text-lg font-semibold"
               >
                 📩 Contact Us
-              </motion.button>
+              </MotionButton>
             </Link>
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
       </div>
 
       {/* Confetti Effect */}
       {confetti.map((_, i) => (
-        <motion.div
+        <MotionDiv
           key={i}
           className="absolute w-2 h-2 rounded-full bg-pink-400 dark:bg-purple-500 opacity-70"
           style={{
@@ -108,6 +116,6 @@ export default function Hero() {
           }}
         />
       ))}
-    </section>
+    </MotionSection>
   );
 }

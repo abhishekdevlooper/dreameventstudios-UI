@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../../components/AdminLayout";
 import { getSession } from "next-auth/react";
-import LeadsTable, { Lead } from "../../components/LeadsTable";
+import LeadsTable, { Lead as LeadType } from "../../components/LeadsTable";
 export type LeadStatus = "New" | "Contacted" | "Converted" | "Lost";
 
 

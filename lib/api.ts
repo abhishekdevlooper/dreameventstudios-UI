@@ -1,4 +1,5 @@
 import axios from "axios";
+// import { apiJson, apiGet } from "../../lib/api";
 
 const api = axios.create({
   baseURL: "http://localhost:8000", // FastAPI backend

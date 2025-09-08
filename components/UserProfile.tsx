@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getClientToken, removeClientToken } from "../utils/auth-client";
 import jwt_decode from "jwt-decode";
 import { useRouter } from "next/navigation";
+import { MotionDiv, MotionButton } from "./common/Motion"; // adjust path if needed
 
 interface DecodedToken {
   user_id: string;
@@ -48,20 +49,21 @@ const UserProfile = () => {
   if (!user) return null;
 
   return (
-    <div className="flex items-center space-x-3">
+    <MotionDiv className="flex items-center space-x-3">
       <img
         src={user.picture}
         alt="Profile"
         className="w-10 h-10 rounded-full object-cover"
       />
       <span>{user.name}</span>
-      <button
+      <MotionButton
         onClick={handleLogout}
+        whileHover={{ scale: 1.05 }}
         className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
       >
         Logout
-      </button>
-    </div>
+      </MotionButton>
+    </MotionDiv>
   );
 };
 

@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
+import React from "react";
+import { MotionArticle } from "./common/Motion"; // adjust path
 
 interface Props {
   service: {
     title: string;
     description: string;
-    image: string; // new image path
+    image: string;
   };
   index: number;
 }
@@ -22,7 +23,7 @@ const cardVariants = {
 
 const ServiceCard = ({ service, index }: Props) => {
   return (
-    <motion.article
+    <MotionArticle
       role="region"
       aria-label={service.title}
       custom={index}
@@ -40,9 +41,11 @@ const ServiceCard = ({ service, index }: Props) => {
           className="w-full h-48 object-cover rounded-xl shadow-sm"
         />
       </div>
-      <h3 className="text-2xl font-semibold text-purple-700 dark:text-purple-300 mb-2">{service.title}</h3>
+      <h3 className="text-2xl font-semibold text-purple-700 dark:text-purple-300 mb-2">
+        {service.title}
+      </h3>
       <p className="text-gray-700 dark:text-gray-300">{service.description}</p>
-    </motion.article>
+    </MotionArticle>
   );
 };
 

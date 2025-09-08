@@ -1,7 +1,12 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+
+import { AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import {
+  MotionSection,
+  MotionDiv,
+} from "./common/Motion"; // adjust import path
 
 const faqs = [
   {
@@ -19,10 +24,10 @@ const faqs = [
 ];
 
 export default function FAQSection() {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <motion.section
+    <MotionSection
       className="max-w-4xl mx-auto my-16 px-4"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
@@ -45,17 +50,17 @@ export default function FAQSection() {
                 onClick={() => setOpenIndex(isOpen ? null : i)}
               >
                 <h3 className="font-semibold text-lg text-left">{faq.q}</h3>
-                <motion.div
+                <MotionDiv
                   animate={{ rotate: isOpen ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
                 >
                   <ChevronDown className="w-5 h-5 text-purple-600 dark:text-purple-300" />
-                </motion.div>
+                </MotionDiv>
               </button>
 
               <AnimatePresence>
                 {isOpen && (
-                  <motion.div
+                  <MotionDiv
                     key="content"
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
@@ -64,13 +69,13 @@ export default function FAQSection() {
                     className="px-4 pb-4 text-gray-700 dark:text-gray-300 text-sm"
                   >
                     {faq.a}
-                  </motion.div>
+                  </MotionDiv>
                 )}
               </AnimatePresence>
             </div>
           );
         })}
       </div>
-    </motion.section>
+    </MotionSection>
   );
 }

@@ -6,10 +6,27 @@ import AdminLayout from "../../components/AdminLayout";
 import toast, { Toaster } from "react-hot-toast";
 import { getSession } from "next-auth/react";
 
+// ✅ Define proper types
+type ConversionRate = {
+  total_leads: number;
+  converted: number;
+  conversion_rate: number;
+};
+
+type BookingsByEvent = Record<string, number>;
+
+type RevenueSummary = {
+  total: number;
+};
+
 export default function AdminDashboard() {
-  const [conversionRate, setConversionRate] = useState<any>({});
-  const [bookingsByEvent, setBookingsByEvent] = useState<any>({});
-  const [revenueSummary, setRevenueSummary] = useState<any>({});
+  const [conversionRate, setConversionRate] = useState<ConversionRate>({
+    total_leads: 0,
+    converted: 0,
+    conversion_rate: 0,
+  });
+  const [bookingsByEvent, setBookingsByEvent] = useState<BookingsByEvent>({});
+  const [revenueSummary, setRevenueSummary] = useState<RevenueSummary>({ total: 0 });
   const [alerts, setAlerts] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +42,7 @@ export default function AdminDashboard() {
 
     // Conversion Rate
     try {
-      const res = await axios.get(`${baseURL}/analytics/leads/conversion_rate`);
+      const res = await axios.get<ConversionRate>(`${baseURL}/analytics/leads/conversion_rate`);
       setConversionRate(res.data);
       if ((res.data.conversion_rate || 0) < 20) newAlerts.push("Conversion rate below 20%");
     } catch (err: any) {
@@ -35,7 +52,7 @@ export default function AdminDashboard() {
 
     // Bookings by Event
     try {
-      const res = await axios.get(`${baseURL}/analytics/bookings/event_type_counts`);
+      const res = await axios.get<BookingsByEvent>(`${baseURL}/analytics/bookings/event_type_counts`);
       setBookingsByEvent(res.data);
     } catch (err: any) {
       console.error("Bookings Event API failed:", err.response?.status);
@@ -44,7 +61,7 @@ export default function AdminDashboard() {
 
     // Revenue Summary
     try {
-      const res = await axios.get(`${baseURL}/analytics/bookings/revenue_summary`);
+      const res = await axios.get<RevenueSummary>(`${baseURL}/analytics/bookings/revenue_summary`);
       setRevenueSummary(res.data);
       if ((res.data.total || 0) < 5000) newAlerts.push("Revenue below target");
     } catch (err: any) {
@@ -67,21 +84,21 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             <div className="p-6 bg-gradient-to-r from-purple-500 to-violet-700 text-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 text-center">
               <p className="text-sm uppercase font-medium">Total Leads</p>
-              <span className="font-bold text-2xl mt-2 block">{conversionRate.total_leads || 0}</span>
+              <span className="font-bold text-2xl mt-2 block">{conversionRate.total_leads}</span>
             </div>
             <div className="p-6 bg-gradient-to-r from-purple-500 to-violet-700 text-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 text-center">
               <p className="text-sm uppercase font-medium">Converted</p>
-              <span className="font-bold text-2xl mt-2 block">{conversionRate.converted || 0}</span>
+              <span className="font-bold text-2xl mt-2 block">{conversionRate.converted}</span>
             </div>
             <div className="p-6 bg-gradient-to-r from-purple-500 to-violet-700 text-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 text-center">
               <p className="text-sm uppercase font-medium">Bookings</p>
               <span className="font-bold text-2xl mt-2 block">
-                {Object.values(bookingsByEvent).reduce((a, b) => Number(a) + Number(b), 0)}
+                {Object.values(bookingsByEvent).reduce((a, b) => a + b, 0)}
               </span>
             </div>
             <div className="p-6 bg-gradient-to-r from-purple-500 to-violet-700 text-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 text-center">
               <p className="text-sm uppercase font-medium">Revenue</p>
-              <span className="font-bold text-2xl mt-2 block">${revenueSummary.total || 0}</span>
+              <span className="font-bold text-2xl mt-2 block">${revenueSummary.total}</span>
             </div>
           </div>
         )}

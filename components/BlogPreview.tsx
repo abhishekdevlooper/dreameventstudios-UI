@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { MotionDiv, MotionH2, MotionSpan, MotionButton } from "@/components/common/Motion";
 
 const blogs = [
   {
@@ -26,27 +26,27 @@ export default function BlogPreview() {
     <section className="bg-purple-50 dark:bg-gray-900 py-16 px-6">
       <div className="max-w-6xl mx-auto text-center">
         {/* Animated heading with emoji */}
-        <motion.h2
+        <MotionH2
           className="text-3xl font-bold mb-10 text-purple-800 dark:text-purple-300"
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
         >
-          <motion.span
+          <MotionSpan
             animate={{ rotate: [0, 10, -10, 0] }}
             transition={{ repeat: Infinity, duration: 2 }}
             className="inline-block"
           >
             🎈
-          </motion.span>{" "}
+          </MotionSpan>{" "}
           From Our Blog
-        </motion.h2>
+        </MotionH2>
 
         {/* Blog cards grid */}
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
           {blogs.map((blog, index) => (
-            <motion.div
+            <MotionDiv
               key={index}
               className="bg-white dark:bg-gray-800 border border-purple-100 dark:border-gray-700 rounded-xl shadow-md p-6 cursor-pointer"
               initial={{ opacity: 0, y: 20 }}
@@ -63,20 +63,20 @@ export default function BlogPreview() {
               >
                 Read more →
               </Link>
-            </motion.div>
+            </MotionDiv>
           ))}
         </div>
 
         {/* View All Blogs button */}
         <div className="mt-10 flex justify-center">
           <Link href="/blog">
-            <motion.button
+            <MotionButton
               whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
               whileTap={{ scale: 0.95 }}
               className="bg-purple-600 text-white px-8 py-3 rounded-full shadow-lg font-semibold hover:bg-purple-700"
             >
               View All Blogs
-            </motion.button>
+            </MotionButton>
           </Link>
         </div>
       </div>

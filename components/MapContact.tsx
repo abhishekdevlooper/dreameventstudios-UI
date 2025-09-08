@@ -1,11 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { MapPin, Phone, Mail } from "lucide-react";
+import React from "react";
+import { MotionDiv, MotionSection } from "./common/Motion"; // adjust path if needed
 
 export default function MapContact() {
   return (
-    <motion.section
+    <MotionSection
       className="max-w-6xl mx-auto my-20 p-8 rounded-3xl bg-gradient-to-br from-purple-50 to-purple-100 dark:from-gray-800 dark:to-gray-900 shadow-xl"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -43,7 +44,7 @@ export default function MapContact() {
         </div>
 
         {/* Google Map */}
-        <motion.div
+        <MotionDiv
           className="rounded-2xl overflow-hidden shadow-lg border border-purple-200 dark:border-gray-700"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
@@ -56,8 +57,8 @@ export default function MapContact() {
             allowFullScreen={false}
             loading="lazy"
           ></iframe>
-        </motion.div>
+        </MotionDiv>
       </div>
-    </motion.section>
+    </MotionSection>
   );
 }

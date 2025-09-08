@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { motion } from "framer-motion";
 import CountUp from "react-countup";
+import { MotionDiv } from "./common/Motion"; // adjust the path
 
 const stats = [
   { label: "Events Managed", value: 250 },
@@ -15,7 +15,7 @@ export default function Stats() {
     <div className="bg-gradient-to-r from-purple-50 via-white to-purple-100 dark:from-gray-800 dark:to-gray-900 py-16 px-6 rounded-xl shadow-inner">
       <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         {stats.map((stat, index) => (
-          <motion.div
+          <MotionDiv
             key={index}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ export default function Stats() {
             <p className="text-lg text-gray-700 dark:text-gray-400 mt-2">
               {stat.label}
             </p>
-          </motion.div>
+          </MotionDiv>
         ))}
       </div>
     </div>

@@ -25,11 +25,10 @@
 //   session: { strategy: "jwt" },
 //   pages: { signIn: "/login" },
 // });
-
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Admin",
@@ -38,13 +37,15 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        if (!credentials?.username || !credentials?.password) return null;
+
         try {
           const res = await fetch("http://localhost:8000/api/admin/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              username: credentials?.username,
-              password: credentials?.password,
+              username: credentials.username,
+              password: credentials.password,
             }),
           });
 
@@ -55,8 +56,8 @@ export default NextAuth({
             return { id: user.id, name: user.username };
           }
           return null;
-        } catch (error) {
-          console.error("Login error:", error);
+        } catch (err) {
+          console.error("Login error:", err);
           return null;
         }
       },
@@ -67,7 +68,7 @@ export default NextAuth({
 
   session: {
     strategy: "jwt",
-    maxAge: 30 * 60, // 30 min
+    maxAge: 30 * 60, // 30 minutes
   },
 
   jwt: {
@@ -76,19 +77,22 @@ export default NextAuth({
 
   callbacks: {
     async session({ session, token }) {
-      // Always clear session if no valid token
-      if (!token) return null;
-      return session;
+      // Ensure session always returns valid object
+      return {
+        ...session,
+        user: token ? { ...session.user, id: token.sub } : { ...session.user, id: null },
+      };
     },
-    async jwt({ token }) {
-      // If no token, force logout
-      if (!token) return null;
+    async jwt({ token, user }) {
+      // Attach user id to token
+      if (user?.id) token.sub = String(user.id);
       return token;
     },
   },
 
   pages: {
-    signIn: "/admin/login", // always redirect here
+    signIn: "/admin/login",
   },
-});
+};
 
+export default NextAuth(authOptions);

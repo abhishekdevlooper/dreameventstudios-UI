@@ -1,13 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { PartyPopper, Gift, Briefcase } from "lucide-react";
+import React from "react";
 import { useRouter } from "next/navigation";
+import { PartyPopper, Gift, Briefcase } from "lucide-react";
+import { MotionSection, MotionDiv, MotionButton } from "./common/Motion"; // adjust path
 
 export default function PackagesTeaser() {
   const router = useRouter();
 
-  // Store the icon component, not JSX
   const packages = [
     { 
       name: "Birthday Bash", 
@@ -33,7 +33,7 @@ export default function PackagesTeaser() {
   ];
 
   return (
-    <motion.section
+    <MotionSection
       className="max-w-6xl mx-auto my-16 text-center px-4"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -49,9 +49,9 @@ export default function PackagesTeaser() {
 
       <div className="grid gap-6 md:grid-cols-3">
         {packages.map((pkg, i) => {
-          const Icon = pkg.icon; // assign component
+          const Icon = pkg.icon;
           return (
-            <motion.div
+            <MotionDiv
               key={i}
               className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 
                          hover:shadow-2xl transition-all duration-300 border border-transparent 
@@ -71,7 +71,7 @@ export default function PackagesTeaser() {
               )}
 
               <div className="flex justify-center mb-4">
-                <Icon className="w-8 h-8 text-purple-500" /> {/* Render icon */}
+                <Icon className="w-8 h-8 text-purple-500" />
               </div>
 
               <h3 className="text-xl font-semibold mb-2">{pkg.name}</h3>
@@ -79,34 +79,35 @@ export default function PackagesTeaser() {
                 {pkg.price}
               </p>
               <p className="text-gray-600 dark:text-gray-400 mb-4">{pkg.desc}</p>
+
               <div className="flex justify-center gap-3">
-                <motion.button
+                <MotionButton
                   whileHover={{ scale: 1.05 }}
                   className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 shadow-md"
                 >
                   Book Now
-                </motion.button>
-                <motion.button
+                </MotionButton>
+                <MotionButton
                   whileHover={{ scale: 1.05 }}
                   className="px-4 py-2 rounded-lg border border-purple-500 text-purple-600 
                              dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-gray-700"
                 >
                   Get Quote
-                </motion.button>
+                </MotionButton>
               </div>
-            </motion.div>
+            </MotionDiv>
           );
         })}
       </div>
 
-      <motion.button
+      <MotionButton
         whileHover={{ scale: 1.05 }}
         onClick={() => router.push("/packages")}
         className="mt-10 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 
                    hover:opacity-90 text-white font-semibold shadow-lg"
       >
         View All Packages →
-      </motion.button>
-    </motion.section>
+      </MotionButton>
+    </MotionSection>
   );
 }

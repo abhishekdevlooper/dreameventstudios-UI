@@ -113,23 +113,26 @@ export default function BookingsPage() {
   };
 
   const filteredBookings = bookings.filter((b) => {
+    const preferredDate = b.preferred_date ? new Date(b.preferred_date) : null;
+    const fromDate = filters.fromDate ? new Date(filters.fromDate) : null;
+    const toDate = filters.toDate ? new Date(filters.toDate) : null;
+  
     return (
       (!filters.name || b.name.toLowerCase().includes(filters.name.toLowerCase())) &&
       (!filters.email || b.email.toLowerCase().includes(filters.email.toLowerCase())) &&
       (!filters.phone || (b.phone && b.phone.includes(filters.phone))) &&
       (!filters.event_type || (b.event_type && b.event_type.toLowerCase().includes(filters.event_type.toLowerCase()))) &&
       (!filters.status || b.status === filters.status) &&
-      (!filters.fromDate || new Date(b.preferred_date) >= new Date(filters.fromDate)) &&
-      (!filters.toDate || new Date(b.preferred_date) <= new Date(filters.toDate))
+      (!fromDate || (preferredDate && preferredDate >= fromDate)) &&
+      (!toDate || (preferredDate && preferredDate <= toDate))
     );
   });
-
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
-  const paginatedBookings = filteredBookings.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
+const paginatedBookings = filteredBookings.slice(
+  (currentPage - 1) * itemsPerPage,
+  currentPage * itemsPerPage
+);
+  
   return (
     <AdminLayout sidebarOpen={sidebarOpen}>
       <div className="flex justify-between items-center mb-6">

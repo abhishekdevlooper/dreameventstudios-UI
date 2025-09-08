@@ -1,6 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+
+import React, { useEffect, useState } from "react";
+import { MotionDiv } from "./common/Motion"; // adjust the path as needed
 
 const partners = [
   "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
@@ -36,7 +37,7 @@ export default function OurPartners() {
       </h2>
 
       <div className="overflow-hidden relative w-full">
-        <motion.div
+        <MotionDiv
           className="flex space-x-12 items-center w-max"
           animate={{ x: ["0%", "-50%"] }}
           transition={{
@@ -53,7 +54,7 @@ export default function OurPartners() {
               className="h-8 sm:h-10 md:h-12 lg:h-16 xl:h-20 object-contain grayscale hover:grayscale-0 transition"
             />
           ))}
-        </motion.div>
+        </MotionDiv>
       </div>
     </section>
   );
