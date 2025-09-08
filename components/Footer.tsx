@@ -12,13 +12,13 @@ export default function Footer() {
           <a href="https://facebook.com" target="_blank" className="hover:text-purple-900 transition">
             <Facebook size={24} />
           </a>
-          <a href="https://instagram.com" target="_blank" className="hover:text-purple-900 transition">
+          <a href="https://instagram.com" target="https://www.instagram.com/dream.event.studios/" className="hover:text-purple-900 transition">
             <Instagram size={24} />
           </a>
           <a href="https://linkedin.com" target="_blank" className="hover:text-purple-900 transition">
             <Linkedin size={24} />
           </a>
-          <a href="https://wa.me/919876543210" target="_blank" className="hover:text-purple-900 transition">
+          <a href="https://wa.me/918892467800" target="_blank" className="hover:text-purple-900 transition">
             <MessageCircle size={24} />
           </a>
         </div>
