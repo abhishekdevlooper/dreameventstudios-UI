@@ -1,12 +1,14 @@
-import { GetServerSideProps } from "next";
-import fs from "fs";
-import path from "path";
+"use client";
+
+import { useMemo } from "react";
+import packagesData from "@/public/data/packages.json"; // import local JSON
 import Slideshow from "@/components/Slideshow";
 import InclusionsList from "@/components/InclusionsList";
 import ReviewList from "@/components/ReviewList";
 import DetailsPanel from "@/components/DetailsPanel";
 import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
+import { useParams } from "next/navigation";
 
 type Review = {
   user: string;
@@ -23,21 +25,21 @@ type Package = {
   popular: boolean;
   image_urls: string[];
   inclusions: string[];
-  general_info: string[];
+  general_info: string; 
   reviews: Review[];
 };
 
-type Props = {
-  pkg: Package | null;
-};
+const PackageDetailPage = () => {
+  const params = useParams();
+  const slug = params?.slug as string;
 
-const PackageDetailPage = ({ pkg }: Props) => {
+  // Find package from local JSON
+  const pkg: Package | null = useMemo(() => {
+    return packagesData.find((p) => p.slug === slug) || null;
+  }, [slug]);
+
   if (!pkg) {
-    return (
-      <div className="text-center py-10 text-red-600">
-        Package not found.
-      </div>
-    );
+    return <div className="text-center py-10 text-red-600">Package not found.</div>;
   }
 
   return (
@@ -49,39 +51,27 @@ const PackageDetailPage = ({ pkg }: Props) => {
       />
 
       <div className="max-w-5xl mx-auto space-y-10">
-        {/* ✅ Working Slideshow */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+        {/* Slideshow */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
           <Slideshow />
         </motion.div>
 
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
+        {/* Details */}
+        <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
           <DetailsPanel {...pkg} />
         </motion.div>
 
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
+        {/* Inclusions */}
+        <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
           <InclusionsList inclusions={pkg.inclusions} />
         </motion.div>
 
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.7 }}
-        >
+        {/* Reviews */}
+        <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.7 }}>
           <ReviewList reviews={pkg.reviews} />
         </motion.div>
 
+        {/* Book CTA */}
         <div className="sticky bottom-4 flex justify-center z-40">
           <a
             href="/contact"
@@ -96,20 +86,3 @@ const PackageDetailPage = ({ pkg }: Props) => {
 };
 
 export default PackageDetailPage;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const slug = context.params?.slug as string;
-
-  try {
-    // ✅ Use only local JSON to avoid localhost fetch on Vercel
-    const filePath = path.join(process.cwd(), "public", "data", "packages.json");
-    const fileData = fs.readFileSync(filePath, "utf-8");
-    const packages: Package[] = JSON.parse(fileData);
-
-    const pkg = packages.find((p) => p.slug === slug) || null;
-    return { props: { pkg } };
-  } catch (err) {
-    console.error("Error reading local packages.json:", err);
-    return { props: { pkg: null } };
-  }
-};
