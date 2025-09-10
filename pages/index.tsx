@@ -38,20 +38,18 @@ export default function Home() {
 
       {/* === Hero + CTA === */}
       <div><Hero /></div>
-
+      <br></br>
+      <br></br>
       {/* === Stats === */}
       <div>
       <Stats />
       </div>
-     
-
       {/* === Who We Are === */}
       <div>
       {/* Other sections/components */}
       <WhoWeAre />
     </div>
-
-
+ 
 
       {/* === Why Choose Us & Event Types === */}
       <section className="bg-gradient-to-r from-purple-50 to-white dark:from-gray-800 dark:to-gray-900 py-12 px-6 rounded-2xl shadow-inner">
@@ -60,43 +58,57 @@ export default function Home() {
           <EventTypes />
         </div>
       </section>
-
+      <br></br>
+      <br></br>
       {/* === Event Gallery === */}
       <GallerySection />
-
+      <br></br>
+      <br></br>
       {/* === Testimonials === */}
       <TestimonialsCarousel />
-
+      <br></br>
+      <br></br>
       {/* === Awards & Certifications === */}
      <AwardsSection/>
-
+     <br></br>
+      <br></br>
       {/* === Pricing / Packages Teaser === */}
       <PackagesTeaser />
-
+      <br></br>
+      <br></br>
       {/* === FAQ === */}
       <FAQSection/>
-
+      <br></br>
+      <br></br>
       {/* === Meet Our Team === */}
       <Team />
-
+      <br></br>
+      <br></br>
       {/* === Our Partners === */}
       <OurPartners />
-
+      <br></br>
+      <br></br>
       {/* === Inquiry Form === */}
       {/* <InquiryForm /> */}
 
       {/* === Blog Preview (Optional for SEO) === */}
       <BlogPreview />
-
+      <br></br>
+      <br></br>
       {/* === Call to Action === */}
       <CallToAction />
-
+      <br></br>
+      <br></br>
       {/* === WhatsApp Floating Button === */}
-      <WhatsAppButton />
+      {/* <WhatsAppButton /> */}
 
       {/* === Map & Contact Info in Footer === */}
       <MapContact />
+      <br></br>
+      <br></br>
       <Footer />
+      <br></br>
+      <br></br>
     </main>
   );
 }
