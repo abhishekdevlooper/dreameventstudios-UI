@@ -33,7 +33,11 @@ type Props = {
 
 const PackageDetailPage = ({ pkg }: Props) => {
   if (!pkg) {
-    return <div className="text-center py-10 text-red-600">Package not found.</div>;
+    return (
+      <div className="text-center py-10 text-red-600">
+        Package not found.
+      </div>
+    );
   }
 
   return (
@@ -45,20 +49,36 @@ const PackageDetailPage = ({ pkg }: Props) => {
       />
 
       <div className="max-w-5xl mx-auto space-y-10">
-        {/* ✅ Use working Slideshow without props */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+        {/* ✅ Working Slideshow */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <Slideshow />
         </motion.div>
 
-        <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
           <DetailsPanel {...pkg} />
         </motion.div>
 
-        <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           <InclusionsList inclusions={pkg.inclusions} />
         </motion.div>
 
-        <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.7 }}>
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
           <ReviewList reviews={pkg.reviews} />
         </motion.div>
 
@@ -81,16 +101,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const slug = context.params?.slug as string;
 
   try {
-    const res = await fetch(`http://localhost:8000/api/packages/${slug}`);
-    if (res.ok) {
-      const data = await res.json();
-      return { props: { pkg: data } };
-    }
-  } catch (error) {
-    console.error("Backend not available, using local JSON fallback.");
-  }
-
-  try {
+    // ✅ Use only local JSON to avoid localhost fetch on Vercel
     const filePath = path.join(process.cwd(), "public", "data", "packages.json");
     const fileData = fs.readFileSync(filePath, "utf-8");
     const packages: Package[] = JSON.parse(fileData);

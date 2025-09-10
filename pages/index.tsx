@@ -19,7 +19,13 @@ import MapContact from "@/components/MapContact";   // ✅ New
 import { motion } from "framer-motion";
 import AwardsSection from "@/components/AwardSection";
 import FAQSection from "@/components/FAQSection";
-import WhoWeAre from "@/components/WhoWeAre";
+import dynamic from "next/dynamic";
+// import WhoWeAre from "@/components/WhoWeAre";
+
+const WhoWeAre = dynamic(() => import("@/components/WhoWeAre"), {
+  ssr: false,
+});
+
 
 export default function Home() {
   return (
@@ -31,13 +37,19 @@ export default function Home() {
       />
 
       {/* === Hero + CTA === */}
-      <Hero />
+      <div><Hero /></div>
 
       {/* === Stats === */}
+      <div>
       <Stats />
+      </div>
+     
 
       {/* === Who We Are === */}
-    <WhoWeAre/>
+      <div>
+      {/* Other sections/components */}
+      <WhoWeAre />
+    </div>
 
 
 
