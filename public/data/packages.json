@@ -1,0 +1,136 @@
+[
+    {
+      "id": 1,
+      "slug": "wedding-package",
+      "name": "Wedding Bliss Package",
+      "description": "Complete wedding planning with venue, catering, décor, and entertainment.",
+      "price": "150000",
+      "image_urls": ["/images/event1.jpg"],
+      "popular": true,
+      "category": "Wedding",
+      "general_info": "Perfect for big fat Indian weddings with personalized themes.",
+      "inclusions": ["Venue", "Catering", "Decoration", "DJ", "Photography"],
+      "reviews": [
+        { "user": "John", "rating": 5, "comment": "Best wedding ever!" },
+        { "user": "Priya", "rating": 4, "comment": "Very well organized." }
+      ]
+    },
+    {
+      "id": 2,
+      "slug": "corporate-meet",
+      "name": "Corporate Excellence Meet",
+      "description": "Ideal for annual corporate meets, conferences, and seminars.",
+      "price": "75000",
+      "image_urls": ["/images/event2.jpg"],
+      "popular": false,
+      "category": "Corporate",
+      "general_info": "Includes AV setup, stage design, and catering.",
+      "inclusions": ["Projector", "Catering", "Seating", "Stage"],
+      "reviews": [{ "user": "Rahul", "rating": 5, "comment": "Professional setup!" }]
+    },
+    {
+      "id": 3,
+      "slug": "birthday-bash",
+      "name": "Birthday Bash",
+      "description": "Fun-filled birthday event with decorations, games, and cake arrangements.",
+      "price": "20000",
+      "image_urls": ["/images/event3.jpg"],
+      "popular": true,
+      "category": "Birthday",
+      "general_info": "Best for kids and adults alike with themed setups.",
+      "inclusions": ["Cake", "Games", "Music", "Decor"],
+      "reviews": [{ "user": "Meera", "rating": 4, "comment": "Kids loved it!" }]
+    },
+    {
+      "id": 4,
+      "slug": "concert-night",
+      "name": "Concert Night",
+      "description": "Rocking concert setup with sound, lights, and stage management.",
+      "price": "200000",
+      "image_urls": ["/images/event4.jpg"],
+      "popular": true,
+      "category": "Music",
+      "general_info": "For large audiences with live performances.",
+      "inclusions": ["Stage", "Sound", "Lighting", "Security"],
+      "reviews": [{ "user": "Arjun", "rating": 5, "comment": "Fantastic vibe!" }]
+    },
+    {
+      "id": 5,
+      "slug": "engagement-package",
+      "name": "Engagement Package",
+      "description": "Elegant engagement setup with décor, catering, and photography.",
+      "price": "60000",
+      "image_urls": ["/images/event5.jpg"],
+      "popular": false,
+      "category": "Wedding",
+      "general_info": "Perfect for intimate family events.",
+      "inclusions": ["Decoration", "Catering", "Photography"],
+      "reviews": [{ "user": "Sneha", "rating": 5, "comment": "Simple and elegant." }]
+    },
+    {
+      "id": 6,
+      "slug": "festival-celebration",
+      "name": "Festival Celebration",
+      "description": "Celebrate festivals with traditional décor and cultural programs.",
+      "price": "40000",
+      "image_urls": ["/images/event6.jpg"],
+      "popular": false,
+      "category": "Cultural",
+      "general_info": "Best for Holi, Diwali, or Christmas events.",
+      "inclusions": ["Decoration", "Stage", "Music", "Lighting"],
+      "reviews": [{ "user": "Anjali", "rating": 4, "comment": "Beautiful decorations." }]
+    },
+    {
+      "id": 7,
+      "slug": "college-fest",
+      "name": "College Fest Package",
+      "description": "Complete package for college festivals including stages, sound, and artist management.",
+      "price": "120000",
+      "image_urls": ["/images/event7.jpg"],
+      "popular": true,
+      "category": "College",
+      "general_info": "Great for cultural fests and tech fests.",
+      "inclusions": ["Stage", "Lighting", "Sound", "Artist"],
+      "reviews": [{ "user": "Vikram", "rating": 5, "comment": "Perfect for our fest!" }]
+    },
+    {
+      "id": 8,
+      "slug": "baby-shower",
+      "name": "Baby Shower Bliss",
+      "description": "Heartwarming baby shower celebrations with décor, games, and catering.",
+      "price": "25000",
+      "image_urls": ["/images/event8.jpg"],
+      "popular": false,
+      "category": "Family",
+      "general_info": "Personalized decorations and themes.",
+      "inclusions": ["Games", "Cake", "Catering", "Decor"],
+      "reviews": [{ "user": "Ritika", "rating": 4, "comment": "Lovely experience." }]
+    },
+    {
+      "id": 9,
+      "slug": "product-launch",
+      "name": "Product Launch",
+      "description": "Corporate product launch events with stage design, media, and catering.",
+      "price": "100000",
+      "image_urls": ["/images/event2.jpg"],
+      "popular": true,
+      "category": "Corporate",
+      "general_info": "Includes press management and branding.",
+      "inclusions": ["Media", "Stage", "AV Setup", "Catering"],
+      "reviews": [{ "user": "Dev", "rating": 5, "comment": "Amazing execution!" }]
+    },
+    {
+      "id": 10,
+      "slug": "award-ceremony",
+      "name": "Award Ceremony",
+      "description": "Formal award ceremony with red carpet, stage, and AV setup.",
+      "price": "85000",
+      "image_urls": ["/images/event1.jpg"],
+      "popular": false,
+      "category": "Corporate",
+      "general_info": "Elegant setup for achievements and recognition events.",
+      "inclusions": ["Stage", "AV", "Seating", "Red Carpet"],
+      "reviews": [{ "user": "Neha", "rating": 5, "comment": "Very professional!" }]
+    }
+  ]
+  

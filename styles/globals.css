@@ -5,3 +5,7 @@
 body {
   font-family: 'Inter', sans-serif;
 }
+#nprogress .bar {
+  background: #9333ea !important; /* purple */
+  height: 3px;
+}

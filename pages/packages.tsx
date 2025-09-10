@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Star } from "lucide-react";
 
+// Types
 interface Review {
   user: string;
   rating: number;
@@ -31,13 +32,24 @@ export default function PackagesPage() {
   useEffect(() => {
     async function fetchPackages() {
       try {
-        const res = await fetch("http://localhost:8000/api/packages");
+        const res = await fetch("http://localhost:8000/api/packages", {
+          next: { revalidate: 60 }, // cache in Next.js
+        });
+
+        if (!res.ok) throw new Error("Backend not available");
+
         const data = await res.json();
         setPackages(data);
       } catch (err) {
-        console.error("Error fetching packages:", err);
+        console.warn("⚠️ Backend not available, loading local data instead.");
+
+        // fallback: load JSON from public/data/packages.json
+        const fallbackRes = await fetch("/data/packages.json");
+        const fallbackData = await fallbackRes.json();
+        setPackages(fallbackData);
       }
     }
+
     fetchPackages();
   }, []);
 
@@ -48,7 +60,8 @@ export default function PackagesPage() {
           Our Event Packages
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2 max-w-2xl mx-auto">
-          Choose from our curated event packages designed to make your celebration effortless and memorable.
+          Choose from our curated event packages designed to make your
+          celebration effortless and memorable.
         </p>
       </div>
 
@@ -57,7 +70,8 @@ export default function PackagesPage() {
           const averageRating =
             pkg.reviews.length > 0
               ? (
-                  pkg.reviews.reduce((sum, r) => sum + r.rating, 0) / pkg.reviews.length
+                  pkg.reviews.reduce((sum, r) => sum + r.rating, 0) /
+                  pkg.reviews.length
                 ).toFixed(1)
               : null;
 

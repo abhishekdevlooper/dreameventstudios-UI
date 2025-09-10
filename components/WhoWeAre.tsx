@@ -13,16 +13,13 @@ import {
 } from "./common/Motion";
 
 export default function WhoWeAre() {
-  // ✅ properly typed ref for useInView
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref as React.RefObject<Element>, {
-    once: true,
-    margin: "-50px",
-  });
+  const inView = useInView(ref, { margin: "-50px" }); // removed `once: true`
   const controls = useAnimation();
 
   useEffect(() => {
-    if (inView) {
+    // If in view OR user navigated directly with hash (#who-we-are)
+    if (inView || window.location.hash === "#who-we-are") {
       controls.start("visible");
     }
   }, [inView, controls]);
@@ -35,6 +32,7 @@ export default function WhoWeAre() {
   return (
     <MotionSection
       ref={ref}
+      id="who-we-are"
       className="relative max-w-6xl mx-auto my-20 px-6 md:px-12 py-16 rounded-3xl bg-gradient-to-br from-purple-50 via-white to-purple-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-xl overflow-hidden"
     >
       {/* Decorative Circles */}
@@ -45,7 +43,7 @@ export default function WhoWeAre() {
       <MotionH2
         className="text-4xl md:text-5xl font-bold text-center text-purple-700 dark:text-purple-300 mb-12"
         initial={{ y: -20, opacity: 0 }}
-        animate={inView ? { y: 0, opacity: 1 } : {}}
+        animate={inView || window.location.hash === "#who-we-are" ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.6 }}
       >
         Who We Are
@@ -56,7 +54,7 @@ export default function WhoWeAre() {
         <MotionDiv
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8"
           initial={{ x: -50, opacity: 0 }}
-          animate={inView ? { x: 0, opacity: 1 } : {}}
+          animate={inView || window.location.hash === "#who-we-are" ? { x: 0, opacity: 1 } : {}}
           transition={{ duration: 0.6 }}
         >
           <h3 className="text-xl font-semibold text-purple-600 dark:text-purple-400 mb-4">
@@ -73,7 +71,7 @@ export default function WhoWeAre() {
         <MotionDiv
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8"
           initial={{ x: 50, opacity: 0 }}
-          animate={inView ? { x: 0, opacity: 1 } : {}}
+          animate={inView || window.location.hash === "#who-we-are" ? { x: 0, opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h3 className="text-xl font-semibold text-purple-600 dark:text-purple-400 mb-4">
@@ -107,7 +105,7 @@ export default function WhoWeAre() {
         <MotionA
           className="mt-10 inline-block bg-purple-600 text-white px-8 py-3 rounded-full shadow-lg hover:bg-purple-700 transition-all duration-300 mx-auto"
           initial={{ scale: 0.95, opacity: 0 }}
-          animate={inView ? { scale: 1, opacity: 1 } : {}}
+          animate={inView || window.location.hash === "#who-we-are" ? { scale: 1, opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           Explore Our Packages →

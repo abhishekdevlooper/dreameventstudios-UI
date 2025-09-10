@@ -1,4 +1,6 @@
 import { GetServerSideProps } from "next";
+import fs from "fs";
+import path from "path";
 import Slideshow from "@/components/Slideshow";
 import InclusionsList from "@/components/InclusionsList";
 import ReviewList from "@/components/ReviewList";
@@ -75,14 +77,29 @@ const PackageDetailPage = ({ pkg }: Props) => {
 export default PackageDetailPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const slug = context.params?.slug;
+  const slug = context.params?.slug as string;
+
   try {
+    // 🔹 Try fetching from backend first
     const res = await fetch(`http://localhost:8000/api/packages/${slug}`);
-    if (!res.ok) return { props: { pkg: null } };
-    const data = await res.json();
-    return { props: { pkg: data } };
+    if (res.ok) {
+      const data = await res.json();
+      return { props: { pkg: data } };
+    }
   } catch (error) {
-    console.error("Error fetching package:", error);
+    console.error("Backend not available, using local JSON fallback.");
+  }
+
+  // 🔹 If backend fails, fallback to local JSON file
+  try {
+    const filePath = path.join(process.cwd(), "public", "data", "packages.json");
+    const fileData = fs.readFileSync(filePath, "utf-8");
+    const packages: Package[] = JSON.parse(fileData);
+
+    const pkg = packages.find((p) => p.slug === slug) || null;
+    return { props: { pkg } };
+  } catch (err) {
+    console.error("Error reading local packages.json:", err);
     return { props: { pkg: null } };
   }
 };
