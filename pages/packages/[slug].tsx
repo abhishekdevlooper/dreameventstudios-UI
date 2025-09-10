@@ -45,8 +45,9 @@ const PackageDetailPage = ({ pkg }: Props) => {
       />
 
       <div className="max-w-5xl mx-auto space-y-10">
+        {/* ✅ Use working Slideshow without props */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <Slideshow images={pkg.image_urls} />
+          <Slideshow />
         </motion.div>
 
         <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
@@ -80,7 +81,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const slug = context.params?.slug as string;
 
   try {
-    // 🔹 Try fetching from backend first
     const res = await fetch(`http://localhost:8000/api/packages/${slug}`);
     if (res.ok) {
       const data = await res.json();
@@ -90,7 +90,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     console.error("Backend not available, using local JSON fallback.");
   }
 
-  // 🔹 If backend fails, fallback to local JSON file
   try {
     const filePath = path.join(process.cwd(), "public", "data", "packages.json");
     const fileData = fs.readFileSync(filePath, "utf-8");
