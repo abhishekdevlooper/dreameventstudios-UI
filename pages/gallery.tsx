@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
 import SEO from "@/components/SEO";
 import { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const allImages = [
   { src: "/images/event1.jpg", category: "Wedding" },
@@ -87,10 +88,20 @@ export default function Gallery() {
               transition={{ duration: 0.4 }}
             >
               <PhotoView src={img.src}>
-                <img
+                <Image
                   src={img.src}
-                  alt={`Event ${index + 1}`}
+                  alt={`${img.category} Event ${index + 1}`}
+                  width={600}
+                  height={400}
                   className="object-cover w-full h-full"
+                  loading={index === 0 ? "eager" : "lazy"} // ✅ eager for first image
+                  priority={index === 0}
+                  placeholder="blur" // ✅ blurred preview
+                  blurDataURL="/images/blur-placeholder.jpg" // ✅ tiny low-res fallback
+                  quality={70} // ✅ compress on the fly
+                  sizes="(max-width: 768px) 100vw, 
+                         (max-width: 1200px) 50vw, 
+                         25vw"
                 />
               </PhotoView>
             </motion.div>

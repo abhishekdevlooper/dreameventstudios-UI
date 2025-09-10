@@ -5,7 +5,7 @@ import {
   MotionSection,
   MotionDiv,
   MotionH2,
-} from "@/components/common/Motion"; // ✅ import typed motion components
+} from "@/components/common/Motion";
 
 const galleryImages = [
   "/images/event1.jpg",
@@ -39,11 +39,18 @@ export default function EventGallery() {
           >
             <Image
               src={src}
-              alt={`Event ${i + 1}`}
+              alt={`Event photo ${i + 1}`}
               width={600}
               height={400}
               className="w-full h-48 object-cover"
-              loading="lazy" // ✅ keeps lazy loading
+              loading={i === 0 ? "eager" : "lazy"} // ✅ first loads eagerly, rest lazy
+              priority={i === 0} // ✅ ensures first image loads fastest
+              placeholder="blur" // ✅ blurred preview until load
+              blurDataURL="/images/blur-placeholder.jpg" // ✅ tiny fallback (add a 10px low-res image)
+              quality={70} // ✅ compress images on the fly
+              sizes="(max-width: 768px) 100vw, 
+                     (max-width: 1200px) 50vw, 
+                     25vw" // ✅ responsive sizing
             />
           </MotionDiv>
         ))}
