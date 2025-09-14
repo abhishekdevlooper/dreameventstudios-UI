@@ -20,7 +20,7 @@ const navLinks = [
   { href: "/services", label: "Services", icon: <Briefcase size={16} className="inline mr-2" /> },
   { href: "/gallery", label: "Gallery", icon: <Image size={16} className="inline mr-2" /> },
   { href: "/contact", label: "Contact", icon: <Phone size={16} className="inline mr-2" /> },
-  { href: "/booking", label: "Book", icon: <Calendar size={16} className="inline mr-2" /> },
+  { href: "/ClientBookingPage", label: "Book", icon: <Calendar size={16} className="inline mr-2" /> },
   { href: "/testimonials", label: "Testimonials", icon: <MessageCircleHeart size={16} className="inline mr-2" /> },
   { href: "/packages", label: "Packages", icon: <Gift size={16} className="inline mr-2" /> },
 ];

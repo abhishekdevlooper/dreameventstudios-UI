@@ -1,38 +1,56 @@
-// frontend/context/AuthContext.tsx
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+"use client";
 
-interface AuthContextType {
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+
+type User = {
+  id: string;
+  email: string;
+  name?: string;
+  picture?: string;
+};
+
+type AuthContextType = {
+  user: User | null;
   token: string | null;
-  login: (newToken: string) => void;
+  setUser: (user: User | null) => void;
+  setToken: (token: string | null) => void;
   logout: () => void;
-}
+};
 
 const AuthContext = createContext<AuthContextType>({
+  user: null,
   token: null,
-  login: () => {},
+  setUser: () => {},
+  setToken: () => {},
   logout: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) setToken(savedToken);
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+
+    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedToken) setToken(storedToken);
+    setLoading(false);
   }, []);
 
-  const login = (newToken: string) => {
-    setToken(newToken);
-    localStorage.setItem("token", newToken);
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    location.href = "/login"; // hard redirect
   };
 
-  const logout = () => {
-    setToken(null);
-    localStorage.removeItem("token");
-  };
+  if (loading) return null; // prevent flicker
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, setUser, setToken, logout }}>
       {children}
     </AuthContext.Provider>
   );

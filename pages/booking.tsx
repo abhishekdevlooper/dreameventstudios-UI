@@ -1,20 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { CalendarDays, Mail, User, Phone, DollarSign } from "lucide-react";
-import Lottie from "lottie-react";
-import Confetti from "react-confetti";
 import SEO from "@/components/SEO";
+import api from "@/utils/api"; // ✅ use same api as Admin
 
-// --- Motion Variants ---
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+const Confetti = dynamic(() => import("react-confetti"), { ssr: false });
+
 const formVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({ opacity: 1, y: 0, transition: { delay: i * 0.1 } }),
 };
 
-// --- Event Icons ---
 const eventIcons: Record<string, string> = {
   wedding: "💍",
   birthday: "🎂",
@@ -35,44 +35,48 @@ export default function BookingForm() {
   const [shake, setShake] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  // --- Load Lottie Animation ---
   useEffect(() => {
-    fetch("/animations/success.json")
-      .then((res) => res.json())
-      .then((data) => setSuccessAnimation(data))
-      .catch(() => console.warn("Failed to load animation"));
-  }, []);
+    if (submitted) {
+      import("../public/animations/success.json")
+        .then((data) => setSuccessAnimation(data))
+        .catch(() => console.warn("Animation not found"));
+    }
+  }, [submitted]);
 
-  // --- Handlers ---
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("http://127.0.0.1:8000/api/bookings/", {
+      await api.post("/api/bookings/", {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         budget: formData.budget,
-        event_type: formData.eventType, // ✅ map to backend
-        preferred_date: formData.date,  // ✅ keep as ISO string YYYY-MM-DD
+        event_type: formData.eventType,
+        preferred_date: formData.date,
+        status: "New", // ✅ same as Admin default
       });
+
       setSubmitted(true);
       setShowConfetti(true);
-    } catch (err: any) {
-      console.error(err.response?.data || err);
+    } catch (err) {
+      console.error("Booking error:", err);
       setShake(true);
       setTimeout(() => setShake(false), 500);
     }
   };
 
-  // --- Validations ---
+  // ✅ validation
   const isNameValid = formData.name.length >= 3;
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
   const isDateValid = formData.date && new Date(formData.date) >= new Date();
 
-  // --- Form Fields ---
   const fields = [
     {
       label: "Full Name",
@@ -102,7 +106,9 @@ export default function BookingForm() {
       label: "Budget",
       name: "budget",
       type: "text",
-      icon: <DollarSign className="absolute left-3 top-3 text-gray-400" size={20} />,
+      icon: (
+        <DollarSign className="absolute left-3 top-3 text-gray-400" size={20} />
+      ),
       placeholder: "₹50,000",
       isValid: true,
     },
@@ -115,7 +121,12 @@ export default function BookingForm() {
         description="Reserve your special day with our expert event planners. Weddings, parties, corporate events — fully customized experiences."
       />
 
-      {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} />}
+      {showConfetti && (
+        <Confetti
+          width={typeof window !== "undefined" ? window.innerWidth : 0}
+          height={typeof window !== "undefined" ? window.innerHeight : 0}
+        />
+      )}
 
       <div className="min-h-screen bg-gradient-to-tr from-purple-100 to-white dark:from-gray-900 dark:to-gray-800 px-4 py-12 flex items-center justify-center">
         <motion.div
@@ -135,7 +146,9 @@ export default function BookingForm() {
             🎉 Book Your Event
           </motion.h1>
 
-          {formData.eventType && <p className="text-center text-3xl">{eventIcons[formData.eventType]}</p>}
+          {formData.eventType && (
+            <p className="text-center text-3xl">{eventIcons[formData.eventType]}</p>
+          )}
 
           {submitted ? (
             <motion.div
@@ -157,8 +170,16 @@ export default function BookingForm() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               {fields.map((field, i) => (
-                <motion.div key={field.name} custom={i} initial="hidden" animate="visible" variants={formVariants}>
-                  <label className="block text-sm font-semibold mb-1">{field.label}</label>
+                <motion.div
+                  key={field.name}
+                  custom={i}
+                  initial="hidden"
+                  animate="visible"
+                  variants={formVariants}
+                >
+                  <label className="block text-sm font-semibold mb-1">
+                    {field.label}
+                  </label>
                   <div className="relative group">
                     {field.icon}
                     <input
@@ -166,7 +187,7 @@ export default function BookingForm() {
                       name={field.name}
                       placeholder={field.placeholder}
                       onChange={handleChange}
-                      required={field.name === "name" || field.name === "email"}
+                      required={["name", "email"].includes(field.name)}
                       className={`pl-10 w-full py-3 border rounded-xl bg-gray-50 dark:bg-gray-800 focus:ring-2 outline-none transition-all duration-200 group-hover:ring-2 ${
                         field.isValid
                           ? "border-gray-300 focus:ring-purple-400"
@@ -202,32 +223,13 @@ export default function BookingForm() {
                     onChange={handleChange}
                     required
                     className={`pl-10 w-full py-3 border rounded-xl bg-gray-50 dark:bg-gray-800 focus:ring-2 outline-none group-hover:ring-2 transition ${
-                      isDateValid ? "border-gray-300 focus:ring-purple-400" : "border-red-500 focus:ring-red-400"
+                      isDateValid
+                        ? "border-gray-300 focus:ring-purple-400"
+                        : "border-red-500 focus:ring-red-400"
                     }`}
                   />
                 </div>
               </motion.div>
-
-              {/* Live Preview */}
-              {(formData.name ||
-                formData.email ||
-                formData.phone ||
-                formData.budget ||
-                formData.eventType ||
-                formData.date) && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="p-4 border rounded-xl bg-purple-50 text-sm text-gray-700 dark:bg-gray-800 dark:text-white"
-                >
-                  <p><strong>Name:</strong> {formData.name}</p>
-                  <p><strong>Email:</strong> {formData.email}</p>
-                  <p><strong>Phone:</strong> {formData.phone}</p>
-                  <p><strong>Budget:</strong> {formData.budget}</p>
-                  <p><strong>Event:</strong> {formData.eventType}</p>
-                  <p><strong>Date:</strong> {formData.date}</p>
-                </motion.div>
-              )}
 
               <motion.div custom={6} initial="hidden" animate="visible" variants={formVariants}>
                 <button
